@@ -1,23 +1,30 @@
 ﻿
 
-}
+record Point(double X, double Y);
 class LineSegment
 {
-    private (double X, double Y) pointStart;
-    private (double X, double Y) pointEnd;
+    private readonly Point _start;
+    private readonly Point _end;
 
-    public LineSegment((double X, double Y) pointStart, (double X, double Y) pointEnd)
+    public LineSegment(Point start, Point end)
     {
-        this.pointStart = pointStart;
-        this.pointEnd = pointEnd;
+        _start = start;
+        _end = end;
     }
 
-    public double DistanceTriangle()
+    public double Distance()
     {
-        double a = pointEnd.X - pointStart.X;
-        double c = pointStart.Y - pointEnd.Y;
+        double a = _end.X - _start.X;
+        double c = _start.Y - _end.Y;
         double b = Math.Pow(a, 2) + Math.Pow(c, 2);
         return Math.Sqrt(b);
+    }
+
+    public double[] Mid()
+    {
+        double xMid = (_end.X - _start.X) / 2;
+        double yMid = (_end.Y - _start.Y) / 2;
+        return [xMid, yMid];
     }
 }
 class Program
@@ -33,7 +40,13 @@ class Program
         Console.WriteLine("Enter Y coordinate of ending point: ");
         double y2 = double.Parse(Console.ReadLine());
         
-        LineSegment distance = new LineSegment((x1, y1), (x2, y2));
-        Console.WriteLine(Math.Round(distance.DistanceTriangle(), 3));
+        Point start = new Point(x1, y1);
+        Point end = new Point(x2, y2);
+        
+        LineSegment linesegment = new LineSegment(start, end);
+        Console.WriteLine(Math.Round(linesegment.Distance(), 3));
+
+        double[] mid = linesegment.Mid();
+        Console.WriteLine($"Mid: [{mid[0]}, {mid[1]}]");
     }
 }
